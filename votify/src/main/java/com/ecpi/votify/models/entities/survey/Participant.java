@@ -22,4 +22,8 @@ public class Participant extends User {
     @OneToOne
     @JoinColumn(name = "choiceid", insertable = false, updatable = false)
     private Choice choice;
+
+    @OneToOne
+    @JoinColumn(name = "survey_id", insertable = false, updatable = false)
+    private Survey survey;
 }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +12,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,15 +36,5 @@ public class Survey {
     private LocalDate endingDate;
 
     private LocalTime endingTime;
-
-    @OneToMany(mappedBy = "survey")
-    private List<Participant> participantList;
-
-    @OneToMany(mappedBy = "survey")
-    private List<Possibility> possibilityList;
-
-    @OneToMany(mappedBy = "survey")
-    private List<Choice> choiceList;
-
 
 }

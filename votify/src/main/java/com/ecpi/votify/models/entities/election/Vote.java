@@ -19,11 +19,7 @@ public class Vote {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "voterid", insertable = false, updatable = false)
-    private Voter voter;
-
-    @OneToOne
-    @JoinColumn(name = "candidateid", insertable = false, updatable = false)
+    @JoinColumn(name = "candidate_id", insertable = false, updatable = false)
     private Candidate candidate;
 
 }

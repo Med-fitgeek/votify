@@ -20,7 +20,11 @@ public class Voter extends User {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "voteid", insertable = false, updatable = false)
+    @JoinColumn(name = "vote_id", insertable = false, updatable = false)
     private Vote vote;
+
+    @OneToOne
+    @JoinColumn(name = "election_id", insertable = false, updatable = false)
+    private Election election;
 
 }

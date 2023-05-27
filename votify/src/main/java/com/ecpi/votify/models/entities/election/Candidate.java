@@ -20,9 +20,8 @@ public class Candidate extends User {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "electionid", insertable = false, updatable = false)
+    @JoinColumn(name = "election_id", insertable = false, updatable = false)
     private Election election;
-    private Integer electionid;
 
 }
 

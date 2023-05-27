@@ -22,5 +22,5 @@ public class Possibility extends User {
     @ManyToOne
     @JoinColumn(name = "surveyid", insertable = false, updatable = false)
     private Survey survey;
-    private UUID surveyid;
+
 }

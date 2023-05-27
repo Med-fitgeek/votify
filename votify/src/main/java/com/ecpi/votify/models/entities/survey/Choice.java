@@ -19,11 +19,7 @@ public class Choice {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "participantid", insertable = false, updatable = false)
-    private Participant participant;
-
-    @OneToOne
-    @JoinColumn(name = "candidateid", insertable = false, updatable = false)
-    private Choice choice;
+    @JoinColumn(name = "possibility_id", insertable = false, updatable = false)
+    private Possibility possibility;
 
 }
