@@ -9,6 +9,9 @@ import java.util.UUID;
 public class PossibilityDTO extends UserDTO {
 
     private UUID id;
+
+    private String description;
+
     private SurveyDTO survey;
 
 }

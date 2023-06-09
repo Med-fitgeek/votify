@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface PossibilityRepository extends JpaRepository<Possibility, UUID> {
+
+    Possibility findByDescription(String entry);
 }
