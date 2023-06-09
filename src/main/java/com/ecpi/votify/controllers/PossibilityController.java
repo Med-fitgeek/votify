@@ -3,53 +3,55 @@ package com.ecpi.votify.controllers;
 import com.ecpi.votify.models.entities.survey.Possibility;
 import com.ecpi.votify.services.PossibilityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/api/possibilities")
 public class PossibilityController {
 
     @Autowired
     private PossibilityService possibilityService;
 
-    @GetMapping("/possibilitys")
-    public String getAllPossibilitys(Model model) {
-
+    @GetMapping
+    public ResponseEntity<List<Possibility>> getAllPossibilities() {
         List<Possibility> possibilityList = possibilityService.getAllPossibilities();
-
-        model.addAttribute("possibilitys", possibilityList);
-
-        return "possibility";
+        return new ResponseEntity<>(possibilityList, HttpStatus.OK);
     }
 
-    @PostMapping("/possibilitys/addPossibility")
-    public String addPossibility(Possibility possibility) {
-
+    @PostMapping("/addPossibility")
+    public ResponseEntity<Possibility> addPossibility(@RequestBody Possibility possibility) {
         possibilityService.save(possibility);
-
-        return "redirect:/possibilitys";
+        return new ResponseEntity<>(possibility, HttpStatus.CREATED);
     }
 
-    @RequestMapping("/possibilitys/findById/")
-    @ResponseBody
-    public Possibility findByDescription(String entry){
-
-        return possibilityService.findByDescription(entry);
+    @GetMapping("/findByDescription/{description}")
+    public ResponseEntity<Possibility> findByDescription(@PathVariable String description) {
+        Possibility possibility = possibilityService.findByDescription(description);
+        if (possibility != null) {
+            return new ResponseEntity<>(possibility, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value="/possibilitys/update", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String update(Possibility possibility){
+    @PutMapping("/update")
+    public ResponseEntity<Possibility> updatePossibility(@RequestBody Possibility possibility) {
         possibilityService.save(possibility);
-        return "redirect:/possibilitys";
+        return new ResponseEntity<>(possibility, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/possibilitys/delete/", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(UUID id){
-
-        possibilityService.deleteById(id);
-
-        return "redirect:/possibilitys";
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletePossibility(@PathVariable UUID id) {
+        boolean deleted = possibilityService.deleteById(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

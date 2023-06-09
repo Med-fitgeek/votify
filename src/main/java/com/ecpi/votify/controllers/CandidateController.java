@@ -3,53 +3,55 @@ package com.ecpi.votify.controllers;
 import com.ecpi.votify.models.entities.election.Candidate;
 import com.ecpi.votify.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/api/candidates")
 public class CandidateController {
 
     @Autowired
     private CandidateService candidateService;
 
-    @GetMapping("/candidates")
-    public String getAllCandidates(Model model) {
-
+    @GetMapping
+    public ResponseEntity<List<Candidate>> getAllCandidates() {
         List<Candidate> candidateList = candidateService.getAllCandidates();
-
-        model.addAttribute("candidates", candidateList);
-
-        return "candidate";
+        return new ResponseEntity<>(candidateList, HttpStatus.OK);
     }
 
-    @PostMapping("/candidates/addCandidate")
-    public String addCandidate(Candidate candidate) {
-
+    @PostMapping("/addCandidate")
+    public ResponseEntity<Candidate> addCandidate(@RequestBody Candidate candidate) {
         candidateService.save(candidate);
-
-        return "redirect:/candidates";
+        return new ResponseEntity<>(candidate, HttpStatus.CREATED);
     }
 
-    @RequestMapping("/candidates/findById/")
-    @ResponseBody
-    public Candidate findByDescription(String firstName, String lastName){
-
-        return candidateService.findByDescription(firstName, lastName);
+    @GetMapping("/findByFirstNameOrLastName/{firstName}/{lastName}")
+    public ResponseEntity<Candidate> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) {
+        Candidate candidate = candidateService.findByFirstNameOrLastName(firstName,lastName);
+        if (candidate != null) {
+            return new ResponseEntity<>(candidate, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value="/candidates/update", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String update(Candidate candidate){
+    @PutMapping("/update")
+    public ResponseEntity<Candidate> updateCandidate(@RequestBody Candidate candidate) {
         candidateService.save(candidate);
-        return "redirect:/candidates";
+        return new ResponseEntity<>(candidate, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/candidates/delete/", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(UUID id){
-
-        candidateService.deleteById(id);
-
-        return "redirect:/candidates";
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCandidate(@PathVariable UUID id) {
+        boolean deleted = candidateService.deleteById(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

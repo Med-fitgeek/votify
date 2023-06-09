@@ -3,53 +3,55 @@ package com.ecpi.votify.controllers;
 import com.ecpi.votify.models.entities.survey.Participant;
 import com.ecpi.votify.services.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/api/participants")
 public class ParticipantController {
 
     @Autowired
     private ParticipantService participantService;
 
-    @GetMapping("/participants")
-    public String getAllParticipants(Model model) {
-
+    @GetMapping
+    public ResponseEntity<List<Participant>> getAllParticipants() {
         List<Participant> participantList = participantService.getAllParticipants();
-
-        model.addAttribute("participants", participantList);
-
-        return "participant";
+        return new ResponseEntity<>(participantList, HttpStatus.OK);
     }
 
-    @PostMapping("/participants/addParticipant")
-    public String addParticipant(Participant participant) {
-
+    @PostMapping("/addParticipant")
+    public ResponseEntity<Participant> addParticipant(@RequestBody Participant participant) {
         participantService.save(participant);
-
-        return "redirect:/participants";
+        return new ResponseEntity<>(participant, HttpStatus.CREATED);
     }
 
-    @RequestMapping("/participants/findById/")
-    @ResponseBody
-    public Participant findByDescription(String firstName, String lastName){
-
-        return participantService.findByDescription(firstName, lastName);
+    @GetMapping("/findByFirstNameOrLastName/{firstName}/{lastName}")
+    public ResponseEntity<Participant> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) {
+        Participant participant = participantService.findByFirstNameOrLastName(firstName, lastName);
+        if (participant != null) {
+            return new ResponseEntity<>(participant, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value="/participants/update", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String update(Participant participant){
+    @PutMapping("/update")
+    public ResponseEntity<Participant> updateParticipant(@RequestBody Participant participant) {
         participantService.save(participant);
-        return "redirect:/participants";
+        return new ResponseEntity<>(participant, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/participants/delete/", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(UUID id){
-
-        participantService.deleteById(id);
-
-        return "redirect:/participants";
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteParticipant(@PathVariable UUID id) {
+        boolean deleted = participantService.deleteById(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

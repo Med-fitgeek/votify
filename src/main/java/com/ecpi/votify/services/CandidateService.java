@@ -23,11 +23,15 @@ public class CandidateService {
         candidateRepository.save(candidate);
     }
 
-    public Candidate findByDescription(String first, String last){
+    public Candidate findByFirstNameOrLastName(String first, String last){
         return candidateRepository.findByFirstNameOrLastName(first, last);
     }
 
-    public  void deleteById(UUID id){
-        candidateRepository.deleteById(id);
+    public boolean deleteById(UUID id) {
+        if (candidateRepository.existsById(id)) {
+            candidateRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

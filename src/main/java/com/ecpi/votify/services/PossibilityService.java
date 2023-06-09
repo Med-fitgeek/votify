@@ -27,7 +27,11 @@ public class PossibilityService {
         return possibilityRepository.findByDescription(entry);
     }
 
-    public  void deleteById(UUID id){
-        possibilityRepository.deleteById(id);
+    public boolean deleteById(UUID id) {
+        if (possibilityRepository.existsById(id)) {
+            possibilityRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

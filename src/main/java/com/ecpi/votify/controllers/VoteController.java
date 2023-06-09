@@ -3,33 +3,28 @@ package com.ecpi.votify.controllers;
 import com.ecpi.votify.models.entities.election.Vote;
 import com.ecpi.votify.services.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
+@RestController
+@RequestMapping("/api/votes")
 public class VoteController {
 
     @Autowired
     private VoteService voteService;
 
-    @GetMapping("/votes")
-    public String getAllVotes(Model model) {
-
+    @GetMapping
+    public ResponseEntity<List<Vote>> getAllVotes() {
         List<Vote> voteList = voteService.getAllVotes();
-
-        model.addAttribute("votes", voteList);
-
-        return "vote";
+        return new ResponseEntity<>(voteList, HttpStatus.OK);
     }
 
-    @PostMapping("/votes/addVote")
-    public String addVote(Vote vote) {
-
+    @PostMapping("/addVote")
+    public ResponseEntity<Vote> addVote(@RequestBody Vote vote) {
         voteService.save(vote);
-
-        return "redirect:/votes";
+        return new ResponseEntity<>(vote, HttpStatus.CREATED);
     }
-
 }

@@ -27,7 +27,11 @@ public class ElectionService {
         return electionRepository.findByDescription(entry);
     }
 
-    public  void deleteById(UUID id){
-        electionRepository.deleteById(id);
+    public boolean deleteById(UUID id) {
+        if (electionRepository.existsById(id)) {
+            electionRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

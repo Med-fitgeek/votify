@@ -3,53 +3,55 @@ package com.ecpi.votify.controllers;
 import com.ecpi.votify.models.entities.survey.Survey;
 import com.ecpi.votify.services.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@RestController
+@RequestMapping("/api/surveys")
 public class SurveyController {
 
     @Autowired
     private SurveyService surveyService;
 
-    @GetMapping("/surveys")
-    public String getAllSurveys(Model model) {
-
+    @GetMapping
+    public ResponseEntity<List<Survey>> getAllSurveys() {
         List<Survey> surveyList = surveyService.getAllSurveys();
-
-        model.addAttribute("surveys", surveyList);
-
-        return "survey";
+        return new ResponseEntity<>(surveyList, HttpStatus.OK);
     }
 
-    @PostMapping("/surveys/addSurvey")
-    public String addSurvey(Survey survey) {
-
+    @PostMapping("/addSurvey")
+    public ResponseEntity<Survey> addSurvey(@RequestBody Survey survey) {
         surveyService.save(survey);
-
-        return "redirect:/surveys";
+        return new ResponseEntity<>(survey, HttpStatus.CREATED);
     }
 
-    @RequestMapping("/surveys/findById/")
-    @ResponseBody
-    public Survey findByDescription(String entry){
-
-        return surveyService.findByDescription(entry);
+    @GetMapping("/findByDescription/{description}")
+    public ResponseEntity<Survey> findByDescription(@PathVariable String description) {
+        Survey survey = surveyService.findByDescription(description);
+        if (survey != null) {
+            return new ResponseEntity<>(survey, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @RequestMapping(value="/surveys/update", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String update(Survey survey){
+    @PutMapping("/update")
+    public ResponseEntity<Survey> updateSurvey(@RequestBody Survey survey) {
         surveyService.save(survey);
-        return "redirect:/surveys";
+        return new ResponseEntity<>(survey, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/surveys/delete/", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(UUID id){
-
-        surveyService.deleteById(id);
-
-        return "redirect:/surveys";
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSurvey(@PathVariable UUID id) {
+        boolean deleted = surveyService.deleteById(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

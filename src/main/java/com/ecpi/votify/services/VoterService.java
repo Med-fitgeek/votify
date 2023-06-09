@@ -22,11 +22,15 @@ public class VoterService {
         voterRepository.save(voter);
     }
 
-    public Voter findByDescription(String first, String last){
+    public Voter findByFirstNameOrLastName(String first, String last){
         return voterRepository.findByFirstNameOrLastName(first, last);
     }
 
-    public  void deleteById(UUID id){
-        voterRepository.deleteById(id);
+    public boolean deleteById(UUID id) {
+        if (voterRepository.existsById(id)) {
+            voterRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

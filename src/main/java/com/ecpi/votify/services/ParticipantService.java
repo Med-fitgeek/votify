@@ -22,11 +22,15 @@ public class ParticipantService {
         participantRepository.save(participant);
     }
 
-    public Participant findByDescription(String first, String last){
+    public Participant findByFirstNameOrLastName(String first, String last){
         return participantRepository.findByFirstNameOrLastName(first, last);
     }
 
-    public  void deleteById(UUID id){
-        participantRepository.deleteById(id);
+    public boolean deleteById(UUID id) {
+        if (participantRepository.existsById(id)) {
+            participantRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

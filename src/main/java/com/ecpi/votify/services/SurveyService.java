@@ -27,7 +27,11 @@ public class SurveyService {
         return surveyRepository.findByDescription(entry);
     }
 
-    public  void deleteById(UUID id){
-        surveyRepository.deleteById(id);
+    public boolean deleteById(UUID id) {
+        if (surveyRepository.existsById(id)) {
+            surveyRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
