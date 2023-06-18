@@ -1,36 +1,18 @@
 package com.ecpi.votify.services;
 
 import com.ecpi.votify.models.entities.survey.Participant;
-import com.ecpi.votify.repositories.ParticipantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
-public class ParticipantService {
 
-    @Autowired
-    private ParticipantRepository participantRepository;
+public interface ParticipantService {
 
-    public List<Participant> getAllParticipants(){
-        return participantRepository.findAll();
-    }
+    List<Participant> getAllParticipants();
 
-    public void save(Participant participant){
-        participantRepository.save(participant);
-    }
+    void save(Participant participant);
 
-    public Participant findByFirstNameOrLastName(String first, String last){
-        return participantRepository.findByFirstNameOrLastName(first, last);
-    }
+    Participant findByFirstNameOrLastName(String first, String last);
 
-    public boolean deleteById(UUID id) {
-        if (participantRepository.existsById(id)) {
-            participantRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
+    boolean deleteById(UUID id);
 }

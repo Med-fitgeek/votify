@@ -1,36 +1,18 @@
 package com.ecpi.votify.services;
 
 import com.ecpi.votify.models.entities.election.Voter;
-import com.ecpi.votify.repositories.VoterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
-public class VoterService {
 
-    @Autowired
-    private VoterRepository voterRepository;
+public interface VoterService {
 
-    public List<Voter> getAllVoters(){
-        return voterRepository.findAll();
-    }
+    List<Voter> getAllVoters();
 
-    public void save(Voter voter){
-        voterRepository.save(voter);
-    }
+    void save(Voter voter);
 
-    public Voter findByFirstNameOrLastName(String first, String last){
-        return voterRepository.findByFirstNameOrLastName(first, last);
-    }
+    Voter findByFirstNameOrLastName(String first, String last);
 
-    public boolean deleteById(UUID id) {
-        if (voterRepository.existsById(id)) {
-            voterRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
+    boolean deleteById(UUID id);
 }
