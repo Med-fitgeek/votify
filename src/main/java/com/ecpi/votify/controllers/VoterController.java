@@ -1,7 +1,7 @@
 package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.election.Voter;
-import com.ecpi.votify.services.VoterService;
+import com.ecpi.votify.services.impl.VoterServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class VoterController {
 
     @Autowired
-    private VoterService voterService;
+    private VoterServiceImpl voterService;
 
     @GetMapping
     public ResponseEntity<List<Voter>> getAllVoters() {
@@ -32,11 +32,7 @@ public class VoterController {
     @GetMapping("/findByFirstNameOrLastName/{firstName}/{lastName}")
     public ResponseEntity<Voter> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) {
         Voter voter = voterService.findByFirstNameOrLastName(firstName, lastName);
-        if (voter != null) {
-            return new ResponseEntity<>(voter, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(voter, HttpStatus.OK);
     }
 
     @PutMapping("/update")
@@ -47,11 +43,7 @@ public class VoterController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVoter(@PathVariable UUID id) {
-        boolean deleted = voterService.deleteById(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        voterService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

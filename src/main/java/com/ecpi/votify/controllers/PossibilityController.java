@@ -1,7 +1,7 @@
 package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Possibility;
-import com.ecpi.votify.services.PossibilityService;
+import com.ecpi.votify.services.impl.PossibilityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PossibilityController {
 
     @Autowired
-    private PossibilityService possibilityService;
+    private PossibilityServiceImpl possibilityService;
 
     @GetMapping
     public ResponseEntity<List<Possibility>> getAllPossibilities() {
@@ -32,11 +32,7 @@ public class PossibilityController {
     @GetMapping("/findByDescription/{description}")
     public ResponseEntity<Possibility> findByDescription(@PathVariable String description) {
         Possibility possibility = possibilityService.findByDescription(description);
-        if (possibility != null) {
             return new ResponseEntity<>(possibility, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     @PutMapping("/update")
@@ -47,11 +43,7 @@ public class PossibilityController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePossibility(@PathVariable UUID id) {
-        boolean deleted = possibilityService.deleteById(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        possibilityService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

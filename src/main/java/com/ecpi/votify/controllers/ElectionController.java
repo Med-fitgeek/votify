@@ -1,13 +1,14 @@
 package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.election.Election;
-import com.ecpi.votify.services.ElectionService;
+import com.ecpi.votify.services.impl.ElectionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class ElectionController {
 
     @Autowired
-    private ElectionService electionService;
+    private ElectionServiceImpl electionService;
 
     @GetMapping
     public ResponseEntity<List<Election>> getAllElections() {
@@ -30,13 +31,9 @@ public class ElectionController {
     }
 
     @GetMapping("/findByDescription/{description}")
-    public ResponseEntity<Election> findByDescription(@PathVariable String description) {
-        Election election = electionService.findByDescription(description);
-        if (election != null) {
-            return new ResponseEntity<>(election, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Optional<Election>> findByDescription(@PathVariable String description) {
+        Optional<Election> election = Optional.ofNullable(electionService.findByDescription(description));
+        return new ResponseEntity<>(election, HttpStatus.OK);
     }
 
     @PutMapping("/update")
@@ -47,11 +44,8 @@ public class ElectionController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteElection(@PathVariable UUID id) {
-        boolean deleted = electionService.deleteById(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        electionService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 }

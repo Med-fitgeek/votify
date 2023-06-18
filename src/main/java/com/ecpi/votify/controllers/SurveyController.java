@@ -1,7 +1,7 @@
 package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Survey;
-import com.ecpi.votify.services.SurveyService;
+import com.ecpi.votify.services.impl.SurveyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class SurveyController {
 
     @Autowired
-    private SurveyService surveyService;
+    private SurveyServiceImpl surveyService;
 
     @GetMapping
     public ResponseEntity<List<Survey>> getAllSurveys() {
@@ -32,11 +32,7 @@ public class SurveyController {
     @GetMapping("/findByDescription/{description}")
     public ResponseEntity<Survey> findByDescription(@PathVariable String description) {
         Survey survey = surveyService.findByDescription(description);
-        if (survey != null) {
-            return new ResponseEntity<>(survey, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(survey, HttpStatus.OK);
     }
 
     @PutMapping("/update")
@@ -47,11 +43,7 @@ public class SurveyController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteSurvey(@PathVariable UUID id) {
-        boolean deleted = surveyService.deleteById(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        surveyService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

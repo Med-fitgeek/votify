@@ -1,7 +1,7 @@
 package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Participant;
-import com.ecpi.votify.services.ParticipantService;
+import com.ecpi.votify.services.impl.ParticipantServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class ParticipantController {
 
     @Autowired
-    private ParticipantService participantService;
+    private ParticipantServiceImpl participantService;
 
     @GetMapping
     public ResponseEntity<List<Participant>> getAllParticipants() {
@@ -30,13 +30,10 @@ public class ParticipantController {
     }
 
     @GetMapping("/findByFirstNameOrLastName/{firstName}/{lastName}")
-    public ResponseEntity<Participant> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) {
+    public ResponseEntity<Participant> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) throws Exception {
         Participant participant = participantService.findByFirstNameOrLastName(firstName, lastName);
-        if (participant != null) {
-            return new ResponseEntity<>(participant, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(participant, HttpStatus.OK);
+
     }
 
     @PutMapping("/update")
@@ -46,12 +43,8 @@ public class ParticipantController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteParticipant(@PathVariable UUID id) {
-        boolean deleted = participantService.deleteById(id);
-        if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Void> deleteParticipant(@PathVariable UUID id) throws Exception {
+        participantService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
