@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework.session:spring-session-core'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
+    implementation 'org.hibernate:hibernate-core-jakarta:5.6.15.Final'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
