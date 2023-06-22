@@ -14,5 +14,5 @@ public interface VoterService {
 
     Voter findByFirstNameOrLastName(String first, String last);
 
-    boolean deleteById(UUID id);
+    void deleteById(UUID id);
 }

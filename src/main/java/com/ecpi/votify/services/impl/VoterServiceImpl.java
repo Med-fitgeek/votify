@@ -2,6 +2,7 @@ package com.ecpi.votify.services.impl;
 
 import com.ecpi.votify.models.entities.election.Voter;
 import com.ecpi.votify.repositories.VoterRepository;
+import com.ecpi.votify.services.VoterService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class VoterServiceImpl {
+public class VoterServiceImpl implements VoterService {
 
     @Autowired
     private VoterRepository voterRepository;

@@ -2,13 +2,14 @@ package com.ecpi.votify.services.impl;
 
 import com.ecpi.votify.models.entities.survey.Choice;
 import com.ecpi.votify.repositories.ChoiceRepository;
+import com.ecpi.votify.services.ChoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ChoiceServiceImpl {
+public class ChoiceServiceImpl implements ChoiceService {
 
     @Autowired
     private ChoiceRepository choiceRepository;

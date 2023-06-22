@@ -1,7 +1,7 @@
 package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Choice;
-import com.ecpi.votify.services.ChoiceService;
+import com.ecpi.votify.services.impl.ChoiceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ChoiceController {
 
     @Autowired
-    private ChoiceService choiceService;
+    private ChoiceServiceImpl choiceService;
 
     @GetMapping
     public ResponseEntity<List<Choice>> getAllChoices() {
