@@ -19,7 +19,7 @@ public class Possibility extends User {
     @Id
     private UUID id;
 
-    private String Description;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "surveyid", insertable = false, updatable = false)
