@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoterRepository extends JpaRepository<Voter, UUID> {
-    Optional<Voter> findByFirstNameOrLastName(String firstName, String lastName);
+    Optional<Voter> findByFirstnameOrLastname(String firstname, String lastname);
 }
