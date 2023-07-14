@@ -2,6 +2,7 @@ package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.election.Voter;
 import com.ecpi.votify.services.impl.VoterServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/voters")
+@RequestMapping("/api/v1/voters")
 public class VoterController {
 
     @Autowired
@@ -24,14 +25,14 @@ public class VoterController {
     }
 
     @PostMapping("/addVoter")
-    public ResponseEntity<Voter> addVoter(@RequestBody Voter voter) {
+    public ResponseEntity<Voter> addVoter(@Valid @RequestBody Voter voter) {
         voterService.save(voter);
         return new ResponseEntity<>(voter, HttpStatus.CREATED);
     }
 
     @GetMapping("/findByFirstNameOrLastName/{firstName}/{lastName}")
     public ResponseEntity<Voter> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) {
-        Voter voter = voterService.findByFirstNameOrLastName(firstName, lastName);
+        Voter voter = voterService.findByFirstnameOrLastname(firstName, lastName);
         return new ResponseEntity<>(voter, HttpStatus.OK);
     }
 

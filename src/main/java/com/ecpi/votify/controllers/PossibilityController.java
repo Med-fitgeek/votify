@@ -2,6 +2,7 @@ package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Possibility;
 import com.ecpi.votify.services.impl.PossibilityServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/possibilities")
+@RequestMapping("/api/v1/possibilities")
 public class PossibilityController {
 
     @Autowired
@@ -24,7 +25,7 @@ public class PossibilityController {
     }
 
     @PostMapping("/addPossibility")
-    public ResponseEntity<Possibility> addPossibility(@RequestBody Possibility possibility) {
+    public ResponseEntity<Possibility> addPossibility(@Valid @RequestBody Possibility possibility) {
         possibilityService.save(possibility);
         return new ResponseEntity<>(possibility, HttpStatus.CREATED);
     }

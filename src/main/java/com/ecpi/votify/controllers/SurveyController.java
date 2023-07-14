@@ -2,6 +2,7 @@ package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Survey;
 import com.ecpi.votify.services.impl.SurveyServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/surveys")
+@RequestMapping("/api/v1/surveys")
 public class SurveyController {
 
     @Autowired
@@ -24,7 +25,7 @@ public class SurveyController {
     }
 
     @PostMapping("/addSurvey")
-    public ResponseEntity<Survey> addSurvey(@RequestBody Survey survey) {
+    public ResponseEntity<Survey> addSurvey(@Valid @RequestBody Survey survey) {
         surveyService.save(survey);
         return new ResponseEntity<>(survey, HttpStatus.CREATED);
     }

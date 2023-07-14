@@ -2,6 +2,7 @@ package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.election.Election;
 import com.ecpi.votify.services.impl.ElectionServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/elections")
+@RequestMapping("/api/v1/elections")
 public class ElectionController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class ElectionController {
     }
 
     @PostMapping("/addElection")
-    public ResponseEntity<Election> addElection(@RequestBody Election election) {
+    public ResponseEntity<Election> addElection(@Valid @RequestBody Election election) {
         electionService.save(election);
         return new ResponseEntity<>(election, HttpStatus.CREATED);
     }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/candidates")
+@RequestMapping("/api/v1/candidates")
 public class CandidateController {
 
     @Autowired
@@ -25,14 +25,14 @@ public class CandidateController {
     }
 
     @PostMapping
-    public ResponseEntity<Candidate> addCandidate(@RequestBody Candidate candidate) {
+    public ResponseEntity<Candidate> addCandidate(@Valid @RequestBody Candidate candidate) {
         candidateService.save(candidate);
         return new ResponseEntity<>(candidate, HttpStatus.CREATED);
     }
 
     @GetMapping("/findByFirstNameOrLastName")
-    public ResponseEntity<Candidate> findByFirstNameOrLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-        Candidate candidate = candidateService.findByFirstNameOrLastName(firstName, lastName);
+    public ResponseEntity<Candidate> findByFirstnameOrLastname(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        Candidate candidate = candidateService.findByFirstnameOrLastname(firstName, lastName);
         return new ResponseEntity<>(candidate, HttpStatus.OK);
     }
 

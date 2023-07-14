@@ -2,6 +2,7 @@ package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Choice;
 import com.ecpi.votify.services.impl.ChoiceServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/choices")
+@RequestMapping("/api/v1/choices")
 public class ChoiceController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class ChoiceController {
     }
 
     @PostMapping("/addChoice")
-    public ResponseEntity<Choice> addChoice(@RequestBody Choice choice) {
+    public ResponseEntity<Choice> addChoice(@Valid @RequestBody Choice choice) {
         choiceService.save(choice);
         return new ResponseEntity<>(choice, HttpStatus.CREATED);
     }

@@ -2,6 +2,7 @@ package com.ecpi.votify.controllers;
 
 import com.ecpi.votify.models.entities.survey.Participant;
 import com.ecpi.votify.services.impl.ParticipantServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/participants")
+@RequestMapping("/api/v1/participants")
 public class ParticipantController {
 
     @Autowired
@@ -24,14 +25,14 @@ public class ParticipantController {
     }
 
     @PostMapping("/addParticipant")
-    public ResponseEntity<Participant> addParticipant(@RequestBody Participant participant) {
+    public ResponseEntity<Participant> addParticipant(@Valid @RequestBody Participant participant) {
         participantService.save(participant);
         return new ResponseEntity<>(participant, HttpStatus.CREATED);
     }
 
     @GetMapping("/findByFirstNameOrLastName/{firstName}/{lastName}")
     public ResponseEntity<Participant> findByFirstNameOrLastName(@PathVariable String firstName, @PathVariable String lastName) throws Exception {
-        Participant participant = participantService.findByFirstNameOrLastName(firstName, lastName);
+        Participant participant = participantService.findByFirstnameOrLastname(firstName, lastName);
         return new ResponseEntity<>(participant, HttpStatus.OK);
 
     }
