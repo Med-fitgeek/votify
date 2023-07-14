@@ -1,17 +1,14 @@
 package com.ecpi.votify.models.dtos.surveyDtos;
 
 import com.ecpi.votify.models.dtos.UserDTO;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-
-import java.util.UUID;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class PossibilityDTO extends UserDTO {
 
-    private UUID id;
-
+    @NotEmpty
     private String description;
-
-    private SurveyDTO survey;
-
 }

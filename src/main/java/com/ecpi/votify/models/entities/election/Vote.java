@@ -2,10 +2,7 @@ package com.ecpi.votify.models.entities.election;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 
 import java.util.UUID;
@@ -13,6 +10,7 @@ import java.util.UUID;
 @Entity
 @EqualsAndHashCode(callSuper = false)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "vote")
 public class Vote {
 
     @Id

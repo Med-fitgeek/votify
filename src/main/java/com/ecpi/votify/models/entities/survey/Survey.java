@@ -2,8 +2,7 @@ package com.ecpi.votify.models.entities.survey;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@Table(name = "survey")
 public class Survey {
 
     @Id
@@ -36,5 +37,9 @@ public class Survey {
     private LocalDate endingDate;
 
     private LocalTime endingTime;
+
+    @OneToMany
+    @JoinColumn(name = "participant_id", insertable = false, updatable = false)
+    private List<Participant> participantList;
 
 }
