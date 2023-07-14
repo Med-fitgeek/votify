@@ -9,11 +9,13 @@ import java.util.UUID;
 public interface PossibilityService {
 
 
-    List<Possibility> getAllPossibilities();
-
     void save(Possibility possibility);
+
+    List<Possibility> getAllPossibilities();
 
     Possibility findByDescription(String entry);
 
-    boolean deleteById(UUID id);
+    Possibility findById(UUID id);
+
+    void deleteById(UUID id);
 }

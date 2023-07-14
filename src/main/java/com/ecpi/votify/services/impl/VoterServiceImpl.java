@@ -17,17 +17,25 @@ public class VoterServiceImpl implements VoterService {
     @Autowired
     private VoterRepository voterRepository;
 
-    public List<Voter> getAllVoters() {
-        return voterRepository.findAll();
-    }
-
     public void save(Voter voter) {
         voterRepository.save(voter);
     }
 
-    public Voter findByFirstNameOrLastName(String first, String last) {
-        Optional<Voter> voter = voterRepository.findByFirstNameOrLastName(first, last);
+    public List<Voter> getAllVoters() {
+        return voterRepository.findAll();
+    }
+
+    public Voter findByFirstnameOrLastname(String first, String last) {
+        Optional<Voter> voter = voterRepository.findByFirstnameOrLastname(first, last);
         if (voter.isEmpty()) throw new EntityNotFoundException("Aucun ne correspond aux informations fournies.");
+        return voter.get();
+    }
+
+    @Override
+    public Voter findById(UUID id) {
+        Optional<Voter> voter = voterRepository.findById(id);
+        if (voter.isEmpty())
+            throw new EntityNotFoundException("Aucune entité ne correspond aux informations fournies.");
         return voter.get();
     }
 

@@ -7,11 +7,13 @@ import java.util.UUID;
 
 public interface CandidateService {
 
-    List<Candidate> getAllCandidates();
-
     void save(Candidate candidate);
 
-    Candidate findByFirstNameOrLastName(String first, String last);
+    List<Candidate> getAllCandidates();
+
+    Candidate findByFirstnameOrLastname(String first, String last);
+
+    Candidate findById(UUID id);
 
     void deleteById(UUID id);
 }

@@ -8,11 +8,13 @@ import java.util.UUID;
 
 public interface VoterService {
 
-    List<Voter> getAllVoters();
-
     void save(Voter voter);
 
-    Voter findByFirstNameOrLastName(String first, String last);
+    List<Voter> getAllVoters();
+
+    Voter findByFirstnameOrLastname(String first, String last);
+
+    Voter findById(UUID id);
 
     void deleteById(UUID id);
 }

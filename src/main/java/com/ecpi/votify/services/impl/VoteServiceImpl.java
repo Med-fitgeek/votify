@@ -13,13 +13,12 @@ public class VoteServiceImpl {
     @Autowired
     private VoteRepository voteRepository;
 
+    public void save(Vote vote) {
+        voteRepository.save(vote);
+    }
 
     public List<Vote> getAllVotes() {
         return voteRepository.findAll();
-    }
-
-    public void save(Vote vote) {
-        voteRepository.save(vote);
     }
 
 }

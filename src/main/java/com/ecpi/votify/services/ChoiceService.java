@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface ChoiceService {
 
-    List<Choice> getAllChoices();
-
     void save(Choice choice);
 
+    List<Choice> getAllChoices();
 }

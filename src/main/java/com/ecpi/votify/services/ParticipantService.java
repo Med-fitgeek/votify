@@ -8,11 +8,13 @@ import java.util.UUID;
 
 public interface ParticipantService {
 
-    List<Participant> getAllParticipants();
-
     void save(Participant participant);
 
-    Participant findByFirstNameOrLastName(String first, String last);
+    List<Participant> getAllParticipants();
 
-    boolean deleteById(UUID id);
+    Participant findByFirstnameOrLastname(String first, String last);
+
+    Participant findById(UUID id);
+
+    void deleteById(UUID id);
 }

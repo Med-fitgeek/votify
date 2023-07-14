@@ -8,12 +8,13 @@ import java.util.UUID;
 
 public interface SurveyService {
 
+    void save(Survey survey);
 
     List<Survey> getAllSurveys();
 
-    void save(Survey survey);
-
     Survey findByDescription(String entry);
 
-    boolean deleteById(UUID id);
+    Survey findById(UUID id);
+
+    void deleteById(UUID id);
 }

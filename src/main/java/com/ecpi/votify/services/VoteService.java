@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface VoteService {
 
-    List<Vote> getAllVotes();
-
     void save(Vote vote);
+
+    List<Vote> getAllVotes();
 
 }

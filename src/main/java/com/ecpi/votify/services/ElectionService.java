@@ -8,12 +8,14 @@ import java.util.UUID;
 
 public interface ElectionService {
 
+    void save(Election election);
 
     List<Election> getAllElections();
 
-    void save(Election election);
+    Election findById(UUID id);
+
+    void deleteById(UUID id);
 
     Election findByDescription(String entry);
 
-    void deleteById(UUID id);
 }

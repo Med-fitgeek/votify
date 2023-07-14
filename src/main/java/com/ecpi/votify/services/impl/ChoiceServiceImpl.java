@@ -15,12 +15,12 @@ public class ChoiceServiceImpl implements ChoiceService {
     private ChoiceRepository choiceRepository;
 
 
-    public List<Choice> getAllChoices() {
-        return choiceRepository.findAll();
-    }
-
     public void save(Choice choice) {
         choiceRepository.save(choice);
+    }
+
+    public List<Choice> getAllChoices() {
+        return choiceRepository.findAll();
     }
 
 }
