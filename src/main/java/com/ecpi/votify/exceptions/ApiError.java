@@ -1,25 +1,22 @@
 package com.ecpi.votify.exceptions;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-// Classe interne pour représenter la structure d'erreur JSON
+import java.time.ZonedDateTime;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class ApiError {
-    private HttpStatus status;
-    private String message;
 
-
-    public ApiError(HttpStatus status, String message) {
-        this.status = status;
-        this.message = message;
-
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
+    private final String message;
+    private final HttpStatus httpStatus;
+    private final ZonedDateTime timestamp;
+    private List<String> validationErrors;
 }
+
+
